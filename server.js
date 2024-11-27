@@ -60,16 +60,16 @@ app.delete('/delete-keys', async (req, res) => {
 // Fetch private key if the public key matches
 app.post('/fetch-private-key', async (req, res) => {
   try {
-    const { publicKey } = req.body;
+    const { privateKey } = req.body;
     console.log(req.body);
-    const user = await Key.findOne({ publicKey });
+    const user = await Key.findOne({ privateKey });
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    if (user.publicKey === publicKey) {
-      res.status(200).json({ privateKey: user.privateKey });
+    if (user.privateKey === privateKey) {
+      res.status(200).json({ publicKey: user.publicKey });
     } else {
       res.status(400).json({ error: 'Public key does not match' });
     }
